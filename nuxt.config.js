@@ -34,6 +34,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/errorsValidator.js'
   ],
 
   /*
@@ -47,6 +48,7 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
+    baseURL: 'http://lp.test/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
 
