@@ -5,7 +5,7 @@
         Join us for free
       </h2>
     </div>
-    <div class="form-signup-dig">
+    <div class="form-signup">
       <div class="w-full max-w-xs">
         <form
           class="max-w-md mb-4"

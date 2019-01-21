@@ -57,6 +57,9 @@
 .btn-primary:focus {
   @apply outline-none shadow-outline
 }
+a {
+  @apply no-underline
+}
 
 /**
  * This injects all of Tailwind's utility classes, generated based on your
