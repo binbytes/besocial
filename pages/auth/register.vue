@@ -8,7 +8,7 @@
     <div class="form-signup-dig">
       <div class="w-full max-w-xs">
         <form
-          class="max-w-md mb-4 form-input"
+          class="max-w-md mb-4"
           @submit.prevent="doRegister">
           <div class="mb-4">
             <label
@@ -19,10 +19,15 @@
             <input
               v-validate="'required|min:2'"
               id="name"
+              v-model="form.name"
+              :class="['form-input', { 'has-error': errors.has('name') }]"
               name="name"
-              class="shadow appearance-none border rounded w-full h-12 py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="name">
+            <p
+              v-if="errors.has('name')"
+              class="form-error-text"
+              v-text="errors.first('name')" />
           </div>
           <div class="mb-4">
             <label
@@ -33,10 +38,15 @@
             <input
               v-validate="'required|email'"
               id="email"
+              v-model="form.email"
+              :class="['form-input', { 'has-error': errors.has('email') }]"
               name="email"
-              class="shadow appearance-none border border rounded h-12 w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
               type="email"
               placeholder="email">
+            <p
+              v-if="errors.has('email')"
+              class="form-error-text"
+              v-text="errors.first('email')" />
           </div>
           <div class="mb-6">
             <label
@@ -45,16 +55,21 @@
               Password
             </label>
             <input
-              v-validate="'required|min:3'"
+              v-validate="'required|min:6'"
               id="password"
+              v-model="form.password"
+              :class="['form-input', { 'has-error': errors.has('password') }]"
               name="password"
-              class="shadow appearance-none border border rounded w-full h-12 py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
               type="password"
               placeholder="******************">
+            <p
+              v-if="errors.has('password')"
+              class="form-error-text"
+              v-text="errors.first('password')" />
           </div>
           <div>
             <button
-              class="bg-teal hover:bg-teal-dark text-white font-bold w-full h-12 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              class="btn-primary"
               type="submit">
               Register
             </button>
@@ -83,14 +98,18 @@ export default {
   },
   methods: {
     doRegister() {
-      this.$axios
-        .$post('/auth/register', this.form)
-        .then(() => {
-          this.$router.push('/auth/login')
-        })
-        .catch(err => {
-          this.$setValidationErrors(err)
-        })
+      this.$validator.validate().then(result => {
+        if (result) {
+          this.$axios
+            .$post('/auth/register', this.form)
+            .then(() => {
+              this.$router.replace({ path: '/auth/login' })
+            })
+            .catch(err => {
+              this.$setValidationErrors(err)
+            })
+        }
+      })
     }
   }
 }

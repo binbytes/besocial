@@ -36,6 +36,28 @@
  * @import "components/forms";
  */
 
+.form-input {
+  @apply shadow appearance-none border border rounded h-12 w-full py-2 px-3 text-grey-darker mb-3 leading-tight
+}
+.form-input:not(.has-error):focus {
+  @apply outline-none shadow-outline
+}
+.form-input.has-error {
+  @apply border-red
+}
+.form-error-text {
+  @apply text-red text-xs italic
+}
+.btn-primary {
+  @apply bg-teal text-white font-bold w-full h-12 py-2 px-4 rounded
+}
+.btn-primary:hover {
+ @apply bg-teal-dark
+}
+.btn-primary:focus {
+  @apply outline-none shadow-outline
+}
+
 /**
  * This injects all of Tailwind's utility classes, generated based on your
  * config file.
