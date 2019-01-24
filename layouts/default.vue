@@ -21,6 +21,6 @@ export default {
 
 <style>
 .page-content {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
+  @apply min-h-screen flex justify-center bg-grey-lighter p-6;
 }
 </style>

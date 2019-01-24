@@ -1,27 +1,30 @@
 <template>
   <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">besocial</h1>
-      <h2
-        v-if="visible"
-        class="subtitle">My extraordinary Nuxt.js project</h2>
+    <div class="flex">
+      <div class="w-1/4 mr-4">
+        <left-sidebar/>
+      </div>
+      <div class="w-3/5 mr-4">
+        <main-content/>
+      </div>
+      <div class="w-1/5">
+        <right-sidebar/>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import LeftSidebar from '~/components/LeftSidebar.vue'
+import RightSidebar from '~/components/RightSidebar.vue'
+import MainContent from '~/components/MainContent.vue'
 
 export default {
-  middleware: 'auth',
+  // middleware: 'auth',
   components: {
-    Logo
-  },
-  data() {
-    return {
-      visible: true
-    }
+    RightSidebar,
+    LeftSidebar,
+    MainContent
   }
 }
 </script>

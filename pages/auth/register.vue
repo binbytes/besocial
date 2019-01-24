@@ -32,6 +32,25 @@
           <div class="mb-4">
             <label
               class="block text-grey-darker text-sm font-bold mb-2"
+              for="username">
+              Username
+            </label>
+            <input
+              v-validate="'required|min:2'"
+              id="username"
+              v-model="form.username"
+              :class="['form-input', { 'has-error': errors.has('username') }]"
+              name="username"
+              type="text"
+              placeholder="username">
+            <p
+              v-if="errors.has('username')"
+              class="form-error-text"
+              v-text="errors.first('username')" />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-grey-darker text-sm font-bold mb-2"
               for="email">
               Email
             </label>
@@ -91,6 +110,7 @@ export default {
     return {
       form: {
         name: '',
+        username: '',
         email: '',
         password: ''
       }

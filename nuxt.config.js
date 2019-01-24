@@ -34,7 +34,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/errorsValidator.js'
+    '~/plugins/errorsValidator.js',
+    '~/plugins/bus'
   ],
 
   /*
@@ -43,13 +44,14 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    'nuxt-svg-loader'
   ],
   /*
   ** Axios module configuration
   */
   axios: {
-    baseURL: 'http://lp.test/api'
+    baseURL: 'http://laravel-passport.test/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
   /*
