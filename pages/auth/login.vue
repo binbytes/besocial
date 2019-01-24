@@ -13,21 +13,21 @@
           <div class="mb-4">
             <label
               class="block text-grey-darker text-sm font-bold mb-2"
-              for="email">
-              Email
+              for="username">
+              Username / Email
             </label>
             <input
-              v-validate="'required|email'"
-              id="email"
-              v-model="form.email"
-              :class="['form-input', { 'has-error': errors.has('email') }]"
-              name="email"
-              type="email"
-              placeholder="email">
+              v-validate="'required'"
+              id="username"
+              v-model="form.username"
+              :class="['form-input', { 'has-error': errors.has('username') }]"
+              name="username"
+              type="text"
+              placeholder="Username / Email">
             <p
-              v-if="errors.has('email')"
+              v-if="errors.has('username')"
               class="form-error-text"
-              v-text="errors.first('email')" />
+              v-text="errors.first('username')" />
           </div>
           <div class="mb-6">
             <label
@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       form: {
-        email: '',
+        username: '',
         password: ''
       }
     }
