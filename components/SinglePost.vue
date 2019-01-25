@@ -1,20 +1,21 @@
 <template>
   <div
     class="flex p-4 border-b cursor-pointer"
-    @click="showPost">  
+    @click="showPost">
     <div class="w-12 py-1">
       <img
-        class="rounded-full"
+        class="rounded-full w-10 h-10"
         src="images/default-avatar.jpg"
-        height="40"
-        width="40"
         alt="User avatar">
     </div>
     <div class="w-full pl-1">
-      <span
-        class="text-black font-bold leading-loose"
-        v-text="post.author.name" />
-      <span class="text-grey-dark font-light leading-loose">@<b>{{ post.author.name }}</b> 8am</span>
+      <nuxt-link
+        :to="`/${post.author.username}`">
+        <span
+          class="text-black font-bold leading-loose"
+          v-text="post.author.name" />
+        <span class="text-grey-dark font-light leading-loose">@<b>{{ post.author.name }}</b> 8am</span>
+      </nuxt-link>
       <p
         class="font-thin leading-normal"
         v-text="post.text" />
@@ -28,11 +29,18 @@
             class="text-grey-darker"
             v-text="post.totalComment" />
         </div>
-        
-        <like-svg
-          class="fill-current text-grey cursor-pointer"
-          width="20"
-          height="20"/>
+
+        <div class="flex items-center mr-6">
+          <like-svg
+            :class="{ liked : post.isLiked }"
+            class="fill-current text-grey mr-1"
+            width="20"
+            height="20"
+            @click="toggleLike"/>
+          <span
+            class="text-grey-darker"
+            v-text="post.likedCount" />
+        </div>
       </div>
     </div>
   </div>
@@ -56,7 +64,26 @@ export default {
   methods: {
     showPost() {
       this.$emit('post-selected', this.post)
+    },
+    toggleLike() {
+      this.$axios.$post(`posts/${this.post.id}/like`).then(() => {
+        this.updateLikeCounts()
+      })
+    },
+    updateLikeCounts() {
+      this.$emit('update-post-like', {
+        isLiked: !this.post.isLiked,
+        likedCount: this.post.isLiked
+          ? parseInt(this.post.likedCount) - 1
+          : parseInt(this.post.likedCount) + 1
+      })
     }
   }
 }
 </script>
+
+<style>
+.liked {
+  color: config('colors.red-light');
+}
+</style>

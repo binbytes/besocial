@@ -60,6 +60,9 @@
 a {
   @apply no-underline
 }
+button:focus {
+  @apply outline-none
+}
 
 /**
  * This injects all of Tailwind's utility classes, generated based on your

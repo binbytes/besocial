@@ -1,24 +1,23 @@
 <template>
   <div class="flex p-4 bg-teal-lightest">
     <img
-      class="user-avatar mx-1 p-1 rounded-full"
+      class="rounded-full w-8 h-8 mr-2"
       src="images/default-avatar.jpg"
-      height="40"
-      width="40"
-      alt="user avatar">
+      alt="User avatar">
     <form
       class="w-full text-right"
       @submit.prevent="postTweet">
       <textarea
         v-model="text"
-        :class="{ focus : show }"
+        :class="{ focus : showInput }"
         class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none new-post"
         @blur="tweetBlur(text)"
-        @focus="show = true" />
+        @focus="showInput = true" />
       <button
-        v-if="show"
+        v-if="showInput"
         :disabled="!text"
-        class="mt-2 bg-teal border-teal text-white py-2 px-6 rounded-full"
+        :class="{ disable : text }"
+        class="mt-2 bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
         type="submit">Tweet</button>
     </form>
   </div>
@@ -29,20 +28,20 @@ export default {
   data() {
     return {
       text: '',
-      show: false
+      showInput: false
     }
   },
   methods: {
     postTweet() {
       this.$axios.$post('/posts', { text: this.text }).then(res => {
         this.text = ''
-        this.show = false
+        this.showInput = false
         this.$emit('add-post', res.data)
       })
     },
     tweetBlur(text) {
       if (!text) {
-        this.show = false
+        this.showInput = false
       }
     }
   }
@@ -52,8 +51,12 @@ export default {
 <style>
 textarea.new-post {
   height: 40px;
+  transition: height 0.2s ease-out;
 }
 textarea.new-post.focus {
   height: 80px;
+}
+.disable {
+  @apply bg-teal-dark text-white cursor-pointer;
 }
 </style>

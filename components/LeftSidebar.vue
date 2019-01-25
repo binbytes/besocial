@@ -1,10 +1,10 @@
 <template>
-  <div class="shadow-lg py-4 px-2 bg-white">
+  <div class="left-sidebar shadow-lg py-4 px-2 bg-white">
     <div class="header px-8 mb-6 text-center">
-      <h3 v-text="authUser.name" />
+      <h3 v-text="user.name" />
       <h4
         class="text-grey-dark font-light"
-        v-text="`@${authUser.username}`" />
+        v-text="`@${user.username}`" />
       <img
         class="user-avatar"
         src="images/default-avatar.jpg"
@@ -13,29 +13,49 @@
     <div class="flex justify-between px-5">
       <div>
         <h5 class="text-grey-darker">Tweets</h5>
-        <span class="counts">312</span>
+        <span class="counts">{{ user.postsCount }}</span>
       </div>
       <div>
         <h5 class="text-grey-darker">Following</h5>
-        <span class="counts">312</span>
+        <span class="counts">{{ user.followingCount }}</span>
       </div>
       <div>
         <h5 class="text-grey-darker">Followers</h5>
-        <span class="counts">312</span>
+        <span class="counts">{{ user.followersCount }}</span>
       </div>
     </div>
-    <div class="flex justify-center mt-3">
-      <button class="bg-transparent hover:bg-teal-dark border text-teal border-teal hover:text-white p-2 w-24 rounded-full mr-2">Follow</button>
-      <button class="bg-teal hover:bg-teal-dark text-white p-2 w-24 rounded-full">Following</button>
+    <div 
+      v-if="$auth.user.username != user.username"
+      class="flex justify-center mt-3">
+      <button
+        v-if="!user.isFollowing"
+        class="bg-transparent hover:bg-teal-dark border text-teal border-teal hover:text-white p-2 w-24 rounded-full mr-2"
+        @click="toggleFollow">Follow</button>
+      <button
+        v-else
+        class="bg-teal hover:bg-teal-dark text-white p-2 w-24 rounded-full"
+        @click="toggleFollow">Following</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  computed: {
-    authUser() {
-      return this.$auth.user
+  props: {
+    user: {
+      type: Object,
+      default: null
+    }
+  },
+  methods: {
+    toggleFollow() {
+      this.$axios.$post(`users/${this.user.id}/follow`).then(res => {
+        this.updateUser()
+        this.$auth.fetchUser()
+      })
+    },
+    updateUser() {
+      this.$emit('refresh-user')
     }
   }
 }
@@ -45,7 +65,7 @@ export default {
 .header {
   position: relative;
 }
-.user-avatar {
+.left-sidebar .user-avatar {
   border-radius: 50%;
   height: 70px;
   left: 3%;
@@ -54,6 +74,6 @@ export default {
   width: 70px;
 }
 .counts {
-  @apply inline-block pt-1 text-xl font-semibold text-blue;
+  @apply inline-block leading-normal text-xl font-semibold text-blue;
 }
 </style>

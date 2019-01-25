@@ -4,8 +4,9 @@
     class="animated fadeIn fixed z-50 pin overflow-auto bg-smoke-dark flex"
     @click.self="toggleModal">
     <div class="animated fadeInUp fixed shadow-inner max-w-md md:relative pin-b pin-x align-top m-auto justify-end md:justify-center bg-white md:rounded w-full md:h-auto md:shadow flex flex-col">
-      <single-post :post="post"/>
-
+      <single-post 
+        :post="post"
+        @update-post-like="updatePostLikeCount"/>
       <form
         class="flex flex-col bg-teal-lightest py-3 px-8"
         @submit.prevent="postComment">
@@ -18,7 +19,8 @@
         <button
           v-if="show"
           :disabled="!text"
-          class="ml-auto mt-2 bg-transparent hover:bg-teal-dark border text-teal border-teal hover:text-white py-2 px-6 rounded-full"
+          :class="{ disable : text }"
+          class="ml-auto mt-2 bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
           type="submit">Comment</button>
       </form>
 
@@ -28,24 +30,27 @@
         <div class="loader"/>
       </div>
 
-      <div
-        v-for="comment in comments"
-        :key="comment.id"
-        class="mt-2 border-b">
-        <div class="flex py-2 px-6">
-          <img
-            class="user-avatar rounded-full mx-1 p-1"
-            src="images/default-avatar.jpg"
-            height="40"
-            width="40"
-            alt="User avatar">
-          <div class="ml-4"> 
-            <span class="text-black font-bold">{{ comment.author.name }}</span><br>
-            <span class="text-grey-dark font-light">@<b>foodpandaIndia</b> 8am</span><br>
-            <span class="text-sm leading-loose">{{ comment.comment }}</span>
+      <transition-group
+        name="fade-left"
+        tag="div">
+        <div
+          v-for="comment in comments"
+          :key="comment.id"
+          class="mt-2 border-b">
+          <div class="flex py-2 px-6">
+            <img
+              class="rounded-full w-8 h-8"
+              src="images/default-avatar.jpg"
+              alt="User avatar">
+            <div class="ml-4"> 
+              <span class="text-black font-bold">{{ comment.author.name }}</span><br>
+              <span class="text-grey-dark font-light">@<b>foodpandaIndia</b> 8am</span><br>
+              <span class="text-sm leading-loose">{{ comment.comment }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </transition-group>
+
       <span
         class="absolute pin-t pin-r"
         @click="toggleModal">
@@ -88,6 +93,14 @@ export default {
       showLoader: false
     }
   },
+  watch: {
+    post: {
+      handler() {
+        this.getComments()
+      },
+      deep: true
+    }
+  },
   mounted() {
     this.getComments()
 
@@ -128,6 +141,10 @@ export default {
       if (!text) {
         this.show = false
       }
+    },
+    updatePostLikeCount(e) {
+      this.post.likedCount = e.likedCount
+      this.post.isLiked = e.isLiked
     }
   }
 }
@@ -136,6 +153,7 @@ export default {
 <style>
 textarea {
   height: 40px;
+  transition: height 0.2s ease-out;
 }
 textarea.focus {
   height: 80px;
@@ -144,22 +162,7 @@ textarea.focus {
 .hover\:bg-smoke-dark:hover {
   background-color: rgba(0, 0, 0, 0.6);
 }
-.loader {
-  border: 6px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 6px solid blue;
-  border-bottom: 6px solid blue;
-  width: 50px;
-  height: 50px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.disable {
+  @apply bg-teal-dark text-white cursor-pointer;
 }
 </style>

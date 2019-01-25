@@ -1,12 +1,16 @@
 <template>
   <div class="shadow-lg bg-white">
     <create-post @add-post="addPost"/>
-    
-    <single-post
-      v-for="post in posts"
-      :key="post.id"
-      :post="post"
-      @post-selected="postSelected" />
+
+    <transition-group
+      name="fade-left"
+      tag="div">
+      <single-post
+        v-for="post in posts"
+        :key="post.id"
+        :post="post"
+        @post-selected="postSelected" />
+    </transition-group>
 
     <show-post
       v-if="selectedPost"
@@ -31,6 +35,12 @@ export default {
     CreatePost,
     ShowPost,
     SinglePost
+  },
+  props: {
+    userId: {
+      type: Number,
+      default: null
+    }
   },
   data() {
     return {
@@ -60,7 +70,7 @@ export default {
       this.showLoader = true
 
       this.$axios
-        .$get('/posts', {
+        .$get('/posts/' + (this.userId ? this.userId : ''), {
           params: {
             page: this.nextPage
           }
@@ -96,12 +106,12 @@ export default {
 
 <style>
 .loader {
-  border: 6px solid #f3f3f3;
+  border: 3px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 6px solid blue;
-  border-bottom: 6px solid blue;
-  width: 50px;
-  height: 50px;
+  border-top: 3px solid teal;
+  border-bottom: 3px solid teal;
+  width: 25px;
+  height: 25px;
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
@@ -112,5 +122,16 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+.fade-left {
+  margin-right: 10px;
+}
+.fade-left-enter-active {
+  transition: all 1s;
+}
+.fade-left-enter,
+.fade-left-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

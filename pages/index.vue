@@ -2,7 +2,7 @@
   <section class="container">
     <div class="flex">
       <div class="w-1/4 mr-4">
-        <left-sidebar/>
+        <left-sidebar :user="$auth.user"/>
       </div>
       <div class="w-3/5 mr-4">
         <main-content/>
