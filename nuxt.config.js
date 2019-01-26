@@ -1,4 +1,5 @@
 const pkg = require('./package')
+require('dotenv').config()
 
 module.exports = {
   mode: 'universal',
@@ -29,13 +30,18 @@ module.exports = {
   css: [
     '~/assets/css/tailwind.css'
   ],
-
+  // To use in client side
+  env: {
+    PUSHER_KEY: process.env.PUSHER_KEY,
+    WEBSOCKET_HOST: process.env.WEBSOCKET_HOST
+  },
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/errorsValidator.js',
-    '~/plugins/bus'
+    '~/plugins/errorsValidator',
+    '~/plugins/bus',
+    { src: '~/plugins/echo', ssr: false },
   ],
 
   /*
@@ -51,7 +57,6 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
-    baseURL: 'http://laravel-passport.test/api'
     // See https://github.com/nuxt-community/axios-module#options
   },
   /*
@@ -69,7 +74,7 @@ module.exports = {
     },
     redirect: {
       login: '/auth/login',
-      logout: '/',
+      logout: '/auth/login',
       callback: '/auth/login',
       home: '/'
     }
