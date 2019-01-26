@@ -10,7 +10,7 @@
       </div>
       <img
         class="user-avatar"
-        src="images/default-avatar.jpg"
+        src="images/default-avatar.png"
         alt="User avatar">
     </div>
     <div class="flex justify-between py-2 px-5">

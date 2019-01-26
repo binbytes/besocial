@@ -2,8 +2,8 @@
   <div class="flex p-4 bg-blue-lightest">
     <div class="w-12 text-right pr-1">
       <img
-        class="rounded-full w-8 h-8"
-        src="images/default-avatar.jpg"
+        class="rounded-full border bg-grey-darkest w-8 h-8"
+        src="images/default-avatar.png"
         alt="User avatar">
     </div>
     <div class="w-full pl-1">

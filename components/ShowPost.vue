@@ -12,8 +12,8 @@
       <div class="flex bg-teal-lightest py-3 px-8">
         <div class="w-12 text-right pr-2">
           <img
-            class="rounded-full w-8 h-8"
-            src="images/default-avatar.jpg"
+            class="rounded-full border bg-grey-darkest w-8 h-8"
+            src="images/default-avatar.png"
             alt="User avatar">
         </div>
         <form
@@ -48,8 +48,8 @@
           class="border-t hover:bg-grey-lighter">
           <div class="flex py-2 px-6">
             <img
-              class="rounded-full w-10 h-10"
-              src="images/default-avatar.jpg"
+              class="rounded-full border bg-grey-darkest w-10 h-10"
+              src="images/default-avatar.png"
               alt="User avatar">
             <div class="ml-4">
               <nuxt-link

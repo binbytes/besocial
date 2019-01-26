@@ -7,8 +7,7 @@
     </div>
     <div class="block lg:hidden">
       <button
-        class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
-      >
+        class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white">
         <svg
           class="fill-current h-3 w-3"
           viewBox="0 0 20 20"
@@ -26,8 +25,23 @@
         <nuxt-link
           to="/"
           class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
-          Test Link
+          Home
         </nuxt-link>
+        <div class="relative block mt-4 lg:inline-block lg:mt-0 mr-4">
+          <div
+            class="cursor-pointer text-teal-lighter hover:text-white"
+            @click="showNotification = !showNotification">
+            <notification-svg
+              class="fill-current"
+              width="18"
+              height="16"/>
+            <span>Notification</span>
+          </div>
+          <notification
+            v-if="showNotification"
+            :do="handleClickOutside"
+            class="rounded shadow-md mt-2 absolute pin-t-1 pin-l z-10 bg-white"/>
+        </div>
       </div>
       <div>
         <button
@@ -40,10 +54,18 @@
 </template>
 
 <script>
+import Notification from '~/components/Notification.vue'
+import NotificationSvg from '@/static/images/notification.svg'
+
 export default {
+  components: {
+    Notification,
+    NotificationSvg
+  },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      showNotification: false
     }
   },
   methods: {
@@ -54,6 +76,11 @@ export default {
       this.$auth.logout().then(res => {
         this.$router.replace({ path: '/auth/login' })
       })
+    },
+    handleClickOutside() {
+      if (this.showNotification) {
+        this.showNotification = false
+      }
     }
   }
 }
