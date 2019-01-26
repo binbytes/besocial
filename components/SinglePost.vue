@@ -1,12 +1,15 @@
 <template>
   <div
-    class="flex p-4 border-b cursor-pointer"
+    class="flex px-4 py-2 cursor-pointer hover:bg-grey-lighter"
     @click="showPost">
     <div class="w-12 py-1">
-      <img
-        class="rounded-full w-10 h-10"
-        src="images/default-avatar.jpg"
-        alt="User avatar">
+      <nuxt-link
+        :to="`/${post.author.username}`">
+        <img
+          class="rounded-full w-10 h-10"
+          src="images/default-avatar.jpg"
+          alt="User avatar">
+      </nuxt-link>
     </div>
     <div class="w-full pl-1">
       <nuxt-link

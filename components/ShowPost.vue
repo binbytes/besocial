@@ -1,29 +1,38 @@
 <template>
   <div
-    v-if="modal"
-    class="animated fadeIn fixed z-50 pin overflow-auto bg-smoke-dark flex"
+    v-if="post && modal"
+    class="animated fadeIn fixed z-50 pin overflow-auto bg-smoke-dark pb-1 flex"
     @click.self="toggleModal">
     <div class="animated fadeInUp fixed shadow-inner max-w-md md:relative pin-b pin-x align-top m-auto justify-end md:justify-center bg-white md:rounded w-full md:h-auto md:shadow flex flex-col">
-      <single-post 
-        :post="post"
-        @update-post-like="updatePostLikeCount"/>
-      <form
-        class="flex flex-col bg-teal-lightest py-3 px-8"
-        @submit.prevent="postComment">
-        <textarea
-          v-model="text"
-          :class="{ focus : show }"
-          class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none"
-          @blur="postBlur(text)"
-          @focus="show = true" />
-        <button
-          v-if="show"
-          :disabled="!text"
-          :class="{ disable : text }"
-          class="ml-auto mt-2 bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
-          type="submit">Comment</button>
-      </form>
-
+      <div class="px-3">
+        <single-post 
+          :post="post"
+          @update-post-like="updatePostLikeCount"/>
+      </div>
+      <div class="flex bg-teal-lightest py-3 px-8">
+        <div class="w-12 text-right pr-2">
+          <img
+            class="rounded-full w-8 h-8"
+            src="images/default-avatar.jpg"
+            alt="User avatar">
+        </div>
+        <form
+          class="flex flex-col w-full bg-blue-lightest"
+          @submit.prevent="postComment">
+          <textarea
+            v-model="text"
+            :class="{ focus : show }"
+            class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none"
+            @blur="postBlur(text)"
+            @focus="show = true" />
+          <button
+            v-if="show"
+            :disabled="!text"
+            :class="{ disable : text }"
+            class="ml-auto mt-2 bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
+            type="submit">Comment</button>
+        </form>
+      </div>
       <div
         v-if="showLoader"
         class="flex justify-center p-2">
@@ -36,15 +45,18 @@
         <div
           v-for="comment in comments"
           :key="comment.id"
-          class="mt-2 border-b">
+          class="border-t hover:bg-grey-lighter">
           <div class="flex py-2 px-6">
             <img
-              class="rounded-full w-8 h-8"
+              class="rounded-full w-10 h-10"
               src="images/default-avatar.jpg"
               alt="User avatar">
-            <div class="ml-4"> 
-              <span class="text-black font-bold">{{ comment.author.name }}</span><br>
-              <span class="text-grey-dark font-light">@<b>foodpandaIndia</b> 8am</span><br>
+            <div class="ml-4">
+              <nuxt-link
+                :to="`/${comment.author.username}`">
+                <span class="text-black font-bold">{{ comment.author.name }}</span>
+                <span class="text-grey-dark font-light">@<b>{{ comment.author.username }}</b> 8am</span><br>
+              </nuxt-link>
               <span class="text-sm leading-loose">{{ comment.comment }}</span>
             </div>
           </div>
@@ -55,7 +67,7 @@
         class="absolute pin-t pin-r"
         @click="toggleModal">
         <svg
-          class="h-8 w-8 fill-current text-grey p-1 hover:text-grey-darkest"
+          class="h-10 w-10 fill-current text-grey p-2 hover:text-grey-darkest"
           role="button"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20">
@@ -68,21 +80,11 @@
 </template>
 
 <script>
-import ChatSvg from '@/static/images/comment.svg'
-import LikeSvg from '@/static/images/like.svg'
 import SinglePost from '~/components/SinglePost.vue'
 
 export default {
   components: {
-    ChatSvg,
-    LikeSvg,
     SinglePost
-  },
-  props: {
-    post: {
-      type: Object,
-      default: null
-    }
   },
   data() {
     return {
@@ -90,22 +92,16 @@ export default {
       text: '',
       comments: [],
       show: false,
-      showLoader: false
-    }
-  },
-  watch: {
-    post: {
-      handler() {
-        this.getComments()
-      },
-      deep: true
+      showLoader: false,
+      post: null
     }
   },
   mounted() {
-    this.getComments()
-
-    this.$bus.$on('open-post-show', () => {
+    this.$bus.$on('open-post-show', post => {
       this.modal = true
+      this.post = post
+
+      this.getComments()
     })
   },
   methods: {
@@ -122,10 +118,11 @@ export default {
     postComment() {
       this.$axios
         .$post(`posts/${this.post.id}/comments`, { text: this.text })
-        .then(() => {
+        .then(res => {
           this.text = ''
           this.show = false
-          this.getComments()
+          this.comments.unshift(res.data)
+          this.updatePostCounts()
         })
     },
     updatePostCounts() {

@@ -9,13 +9,11 @@
         v-for="post in posts"
         :key="post.id"
         :post="post"
+        class="border-t"
         @post-selected="postSelected" />
     </transition-group>
 
-    <show-post
-      v-if="selectedPost"
-      :post="selectedPost"
-      @update-post-comment="updatePostCommentCount"/>
+    <show-post @update-post-comment="updatePostCommentCount"/>
 
     <div
       v-if="showLoader & nextPage"
@@ -46,8 +44,7 @@ export default {
     return {
       posts: [],
       nextPage: 1,
-      showLoader: false,
-      selectedPost: null
+      showLoader: false
     }
   },
   mounted() {
@@ -97,8 +94,7 @@ export default {
       }
     },
     postSelected(post) {
-      this.selectedPost = post
-      this.$bus.$emit('open-post-show')
+      this.$bus.$emit('open-post-show', post)
     }
   }
 }
