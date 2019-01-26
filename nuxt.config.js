@@ -1,5 +1,5 @@
 const pkg = require('./package')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
 
 module.exports = {
   mode: 'universal',
@@ -57,7 +57,6 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
-    // baseURL: process.env.API_URL
     // See https://github.com/nuxt-community/axios-module#options
   },
   /*
