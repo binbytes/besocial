@@ -20,7 +20,7 @@ export default {
     this.$echo
       .private('App.User.' + this.$auth.user.id)
       .notification(notification => {
-        console.log(notification.type)
+        console.log(notification)
       })
   }
 }

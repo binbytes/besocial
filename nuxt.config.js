@@ -32,6 +32,7 @@ module.exports = {
   ],
   // To use in client side
   env: {
+    API_URL: process.env.API_URL,
     PUSHER_KEY: process.env.PUSHER_KEY,
     WEBSOCKET_HOST: process.env.WEBSOCKET_HOST
   },
@@ -77,7 +78,10 @@ module.exports = {
       logout: '/auth/login',
       callback: '/auth/login',
       home: '/'
-    }
+    },
+    plugins: [
+      { src: '~/plugins/auth.js', ssr: false }
+    ]
   },
 
   /*
