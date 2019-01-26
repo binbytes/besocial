@@ -21,12 +21,12 @@
           @submit.prevent="postComment">
           <textarea
             v-model="text"
-            :class="{ focus : show }"
+            :class="{ focus : showInput }"
             class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none"
             @blur="postBlur(text)"
-            @focus="show = true" />
+            @focus="showInput = true" />
           <button
-            v-if="show"
+            v-if="showInput"
             :disabled="!text"
             :class="{ disable : text }"
             class="ml-auto mt-2 bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
@@ -91,7 +91,7 @@ export default {
       modal: true,
       text: '',
       comments: [],
-      show: false,
+      showInput: false,
       showLoader: false,
       post: null
     }
@@ -120,7 +120,7 @@ export default {
         .$post(`posts/${this.post.id}/comments`, { text: this.text })
         .then(res => {
           this.text = ''
-          this.show = false
+          this.showInput = false
           this.comments.unshift(res.data)
           this.updatePostCounts()
         })
@@ -136,7 +136,7 @@ export default {
     },
     postBlur(text) {
       if (!text) {
-        this.show = false
+        this.showInput = false
       }
     },
     updatePostLikeCount(e) {
