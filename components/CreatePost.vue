@@ -2,7 +2,7 @@
   <div class="flex p-4 bg-blue-lightest">
     <div class="w-12 text-right pr-1">
       <img
-        class="rounded-full border bg-grey-darkest w-8 h-8"
+        class="rounded-full w-8 h-8"
         src="images/default-avatar.png"
         alt="User avatar">
     </div>
@@ -14,6 +14,7 @@
           v-model="text"
           :class="{ focus : showInput }"
           class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none new-post"
+          placeholder="Post"
           @blur="postBlur(text)"
           @focus="showInput = true" />
         <button

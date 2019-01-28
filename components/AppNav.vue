@@ -3,7 +3,9 @@
     id="navbar"
     class="flex items-center justify-between flex-wrap bg-teal p-4">
     <div class="flex items-center flex-no-shrink text-white mr-6">
-      <span class="font-semibold text-xl tracking-tight">BeSocial</span>
+      <nuxt-link
+        to="/"
+        class="font-semibold text-white text-xl tracking-tight">BeSocial</nuxt-link>
     </div>
     <div class="block lg:hidden">
       <button
@@ -27,21 +29,14 @@
           class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
           Home
         </nuxt-link>
-        <div class="relative block mt-4 lg:inline-block lg:mt-0 mr-4">
-          <div
-            class="cursor-pointer text-teal-lighter hover:text-white"
-            @click="showNotification = !showNotification">
-            <notification-svg
-              class="fill-current"
-              width="18"
-              height="16"/>
-            <span>Notification</span>
-          </div>
-          <notification
-            v-if="showNotification"
-            :do="handleClickOutside"
-            class="rounded shadow-md mt-2 absolute pin-t-1 pin-l z-10 bg-white"/>
+        <notifications/>
+        <div
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4"
+          @click="showMessage = true">Messages
         </div>
+        <messages
+          v-if="showMessage"
+          @close-modal="showMessage = false"/>
       </div>
       <div>
         <button
@@ -54,18 +49,18 @@
 </template>
 
 <script>
-import Notification from '~/components/Notification.vue'
-import NotificationSvg from '@/static/images/notification.svg'
+import Notifications from '~/components/Notifications.vue'
+import Messages from '~/components/Messages.vue'
 
 export default {
   components: {
-    Notification,
-    NotificationSvg
+    Notifications,
+    Messages
   },
   data() {
     return {
       isOpen: false,
-      showNotification: false
+      showMessage: false
     }
   },
   methods: {
@@ -76,11 +71,6 @@ export default {
       this.$auth.logout().then(res => {
         this.$router.replace({ path: '/auth/login' })
       })
-    },
-    handleClickOutside() {
-      if (this.showNotification) {
-        this.showNotification = false
-      }
     }
   }
 }

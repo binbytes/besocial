@@ -10,7 +10,8 @@
         :key="post.id"
         :post="post"
         class="border-t"
-        @post-selected="postSelected" />
+        @post-selected="postSelected" 
+        @update-post-like="updatePostLikeCount"/>
     </transition-group>
 
     <show-post @update-post-comment="updatePostCommentCount"/>
@@ -91,6 +92,14 @@ export default {
 
       if (index > -1) {
         this.posts[index].totalComment = e.totalComment
+      }
+    },
+    updatePostLikeCount(e) {
+      let index = this.posts.findIndex(x => x.id == e.id)
+
+      if (index > -1) {
+        this.posts[index].isLiked = e.isLiked
+        this.posts[index].likedCount = e.likedCount
       }
     },
     postSelected(post) {

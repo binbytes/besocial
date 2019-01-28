@@ -1,12 +1,11 @@
 <template>
   <div
-    class="flex px-4 py-2 cursor-pointer hover:bg-grey-lighter"
-    @click="showPost">
+    class="flex px-4 py-3 cursor-pointer hover:bg-grey-lighter">
     <div class="w-12 py-1">
       <nuxt-link
         :to="`/${post.author.username}`">
         <img
-          class="rounded-full border bg-grey-darkest w-10 h-10"
+          class="rounded-full w-10 h-10"
           src="images/default-avatar.png"
           alt="User avatar">
       </nuxt-link>
@@ -15,15 +14,18 @@
       <nuxt-link
         :to="`/${post.author.username}`">
         <span
-          class="text-black font-bold leading-loose"
+          class="text-grey-darkest font-normal leading-loose"
           v-text="post.author.name" />
-        <span class="text-grey-dark font-light leading-loose">@<b>{{ post.author.name }}</b> 8am</span>
+        <span class="text-grey-dark text-sm font-thin leading-loose">@{{ post.author.username }} 8am</span>
       </nuxt-link>
       <p
-        class="font-thin leading-normal"
+        class="text-grey-darkest font-light leading-normal text-sm"
+        @click="showPost"
         v-text="post.text" />
       <div class="flex mt-3">
-        <div class="flex items-center mr-6">
+        <div
+          class="flex items-center mr-6"
+          @click="showPost">
           <chat-svg
             class="fill-current text-grey mr-1"
             width="20"
@@ -75,6 +77,7 @@ export default {
     },
     updateLikeCounts() {
       this.$emit('update-post-like', {
+        id: this.post.id,
         isLiked: !this.post.isLiked,
         likedCount: this.post.isLiked
           ? parseInt(this.post.likedCount) - 1

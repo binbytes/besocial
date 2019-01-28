@@ -12,7 +12,7 @@
       <div class="flex bg-teal-lightest py-3 px-8">
         <div class="w-12 text-right pr-2">
           <img
-            class="rounded-full border bg-grey-darkest w-8 h-8"
+            class="rounded-full w-8 h-8"
             src="images/default-avatar.png"
             alt="User avatar">
         </div>
@@ -23,6 +23,7 @@
             v-model="text"
             :class="{ focus : showInput }"
             class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none"
+            placeholder="Comment"
             @blur="postBlur(text)"
             @focus="showInput = true" />
           <button
@@ -48,16 +49,16 @@
           class="border-t hover:bg-grey-lighter">
           <div class="flex py-2 px-6">
             <img
-              class="rounded-full border bg-grey-darkest w-10 h-10"
+              class="rounded-full w-10 h-10 my-1 ml-1"
               src="images/default-avatar.png"
               alt="User avatar">
-            <div class="ml-4">
+            <div class="ml-3">
               <nuxt-link
                 :to="`/${comment.author.username}`">
-                <span class="text-black font-bold">{{ comment.author.name }}</span>
-                <span class="text-grey-dark font-light">@<b>{{ comment.author.username }}</b> 8am</span><br>
+                <span class="text-grey-darkest font-normal leading-loose">{{ comment.author.name }}</span>
+                <span class="text-grey-dark text-sm font-thin leading-loose">@{{ comment.author.username }} 8am</span><br>
               </nuxt-link>
-              <span class="text-sm leading-loose">{{ comment.comment }}</span>
+              <span class="text-grey-darkest font-light leading-normal text-sm">{{ comment.comment }}</span>
             </div>
           </div>
         </div>

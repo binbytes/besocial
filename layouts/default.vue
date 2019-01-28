@@ -15,13 +15,6 @@ export default {
   middleware: 'auth',
   components: {
     appNav
-  },
-  mounted() {
-    this.$echo
-      .private('App.User.' + this.$auth.user.id)
-      .notification(notification => {
-        console.log(notification)
-      })
   }
 }
 </script>

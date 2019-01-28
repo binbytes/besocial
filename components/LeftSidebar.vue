@@ -2,16 +2,16 @@
   <div class="left-sidebar shadow-lg bg-white">
     <div class="header">
       <div class="h-24 bg-teal-light"/>
-      <div class="py-1 text-center">
-        <h3 v-text="user.name" />
-        <h4
-          class="text-grey-dark font-light"
-          v-text="`@${user.username}`" />
-      </div>
       <img
         class="user-avatar"
         src="images/default-avatar.png"
         alt="User avatar">
+      <div class="py-1 text-grey-darker pl-24 tracking-wide">
+        <h3 v-text="user.name" />
+        <h4
+          class="text-grey-dark font-light tracking-wide"
+          v-text="`@${user.username}`" />
+      </div>
     </div>
     <div class="flex justify-between py-2 px-5">
       <div>
@@ -75,6 +75,7 @@ export default {
   left: 4%;
   position: absolute;
   top: 45%;
+  border: 3px solid white;
 }
 .counts {
   @apply inline-block leading-normal text-xl font-semibold text-blue;

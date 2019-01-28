@@ -1,73 +1,73 @@
 <template>
-  <div class="absolute w-64 mx-auto">
-    <ul class="list-reset">
-      <li class="flex border-b p-4">
-        <img
-          class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
-          src="images/default-avatar.png"
-          alt="User avatar">
-        <div class="text-sm leading-tight text-grey-darker">
-          <p>
-            <span class="text-base text-teal leading-tight">Bit </span>
-            Followed
-            <span class="text-base text-teal leading-tight"> you </span>
-          </p>
-          <p>Jan 23</p>
-        </div>
-      </li>
-      <li class="flex border-b p-4">
-        <img
-          class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
-          src="images/default-avatar.png"
-          alt="User avatar">
-        <div class="text-sm leading-tight text-grey-darker">
-          <p>
-            <span class="text-base text-teal leading-tight">Directus </span>
-            Liked
-            <span class="text-base text-teal leading-tight">  your post </span>
-          </p>
-          <p>Jan 23</p>
-        </div>
-      </li>
-      <li class="flex border-b p-4">
-        <img
-          class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
-          src="images/default-avatar.png"
-          alt="User avatar">
-        <div class="text-sm leading-tight text-grey-darker">
-          <p>
-            <span class="text-base text-teal leading-tight">Directus </span>
-            Commented
-            <span class="text-base text-teal leading-tight">  your post </span>
-          </p>
-          <p>Jan 23</p>
-        </div>
-      </li>
-    </ul>
+  <div class="w-64 mx-auto">
+    <div
+      class="flex border-b py-3 px-2" >
+      <img
+        class="rounded-full border bg-grey-darkest w-8 h-8 mt-1 mr-2"
+        src="images/default-avatar.png"
+        alt="User avatar">
+      <div v-if="notification.type == 'App\\Notifications\\UserFollowed'">
+        <p class="text">
+          <span class="header-lable">{{ notification.data.likedBy.name }} </span>
+          Followed
+          <span class="header-lable"> you </span>
+          Jan 23
+        </p>
+        <p
+          class="text"
+          v-text="notificationText" />
+      </div>
+      <div v-if="notification.type == 'App\\Notifications\\PostLiked'">
+        <p class="text">
+          <span class="header-lable">{{ notification.data.likedBy.name }} </span>
+          Liked
+          <span class="header-lable">  your post </span>
+          Jan 23
+        </p>
+        <p
+          class="text"
+          v-text="notificationText" />
+      </div>
+      <div v-if="notification.type == 'App\\Notifications\\PostCommented'">
+        <p>
+          <span class="header-lable">{{ notification.data.likedBy.name }} </span>
+          Commented
+          <span class="header-lable">  your post </span>
+          Jan 23
+        </p>
+        <p
+          class="text"
+          v-text="notificationText" />
+      </div>
+    </div>
   </div> 
 </template>
 
 <script>
 export default {
   props: {
-    do: {
+    notification: {
       type: Object,
       default: null
     }
   },
-  mounted() {
-    const listener = e => {
-      if (e.target !== this.$el && !this.$el.contains(e.target)) {
-        this.do()
+  computed: {
+    notificationText() {
+      if (this.notification) {
+        return this.notification.data.text.length > 20
+          ? this.notification.data.text.substr(0, 20) + '...'
+          : this.notification.data.text
       }
     }
-    document.addEventListener('click', listener)
-    this.$once('hook:destroyed', () => {
-      document.removeEventListener('click', listener)
-    })
-  },
-  render() {
-    return this.$slots.default[0]
   }
 }
 </script>
+
+<style>
+.text {
+  @apply text-sm leading-normal text-grey-dark;
+}
+.header-lable {
+  @apply text-teal;
+}
+</style>
