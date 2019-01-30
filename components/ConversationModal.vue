@@ -13,7 +13,7 @@
             New message
           </button>
         </div>
-        <div class="h-64 overflow-y-auto">
+        <div class="h-102 overflow-y-auto">
           <conversations
             v-for="conversation in conversations"
             :key="conversation.index"
@@ -37,7 +37,7 @@
               height="20"/>
           </span>
         </div>
-        <div class="h-64 py-4">
+        <div class="py-4">
           <span class="px-6">Send message to:</span>
           <form
             class="my-3 px-6"
@@ -49,7 +49,7 @@
               class="shadow border border-teal-lighter rounded w-full py-2 px-3 text-grey-darker leading-tight">
           </form>
           <span class="px-6 font-semibold">{{ findUser ? 'Pepole' : 'Recent' }}</span>
-          <div class="h-48 overflow-y-auto border-t mt-2">
+          <div class="h-84 overflow-y-auto border-t mt-2">
             <new-conversation
               v-if="findUser"
               :users="finderUser"
@@ -88,7 +88,7 @@
         </div>
         <div
           v-scroll-bottom
-          class="h-48 overflow-y-auto px-4 py-2">
+          class="h-94 overflow-y-auto px-4 py-2">
           <div 
             v-for="message in conversation.messages"
             :key="message.id">
@@ -208,12 +208,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.h-64 {
-  height: 28.5rem;
-}
-.h-48 {
-  height: 21.7rem;
-}
-</style>
