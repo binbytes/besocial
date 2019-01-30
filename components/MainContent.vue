@@ -108,35 +108,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.loader {
-  border: 3px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 3px solid teal;
-  border-bottom: 3px solid teal;
-  width: 25px;
-  height: 25px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.fade-left {
-  margin-right: 10px;
-}
-.fade-left-enter-active {
-  transition: all 1s;
-}
-.fade-left-enter,
-.fade-left-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-</style>

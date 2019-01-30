@@ -31,10 +31,10 @@
         </nuxt-link>
         <notifications/>
         <div
-          class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter cursor-pointer hover:text-white mr-4"
           @click="showMessage = true">Messages
         </div>
-        <messages
+        <conversation-modal
           v-if="showMessage"
           @close-modal="showMessage = false"/>
       </div>
@@ -50,12 +50,12 @@
 
 <script>
 import Notifications from '~/components/Notifications.vue'
-import Messages from '~/components/Messages.vue'
+import ConversationModal from '~/components/ConversationModal.vue'
 
 export default {
   components: {
     Notifications,
-    Messages
+    ConversationModal
   },
   data() {
     return {
