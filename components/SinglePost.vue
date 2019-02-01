@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex px-4 py-3 cursor-pointer hover:bg-grey-lighter">
+    class="flex px-4 py-3 hover:bg-grey-lighter">
     <div class="w-12 py-1">
       <nuxt-link
         :to="`/${post.author.username}`">
@@ -19,12 +19,12 @@
         <span class="text-grey-dark text-sm font-thin leading-loose">@{{ post.author.username }} 8am</span>
       </nuxt-link>
       <p
-        class="text-grey-darkest font-light leading-normal text-sm"
+        class="text-grey-darkest font-light leading-normal text-sm cursor-pointer"
         @click="showPost"
         v-text="post.text" />
       <div class="flex mt-3">
         <div
-          class="flex items-center mr-6"
+          class="flex items-center mr-6 cursor-pointer"
           @click="showPost">
           <chat-svg
             class="fill-current text-grey mr-1"
@@ -35,7 +35,7 @@
             v-text="post.totalComment" />
         </div>
 
-        <div class="flex items-center mr-6">
+        <div class="flex items-center mr-6 cursor-pointer">
           <like-svg
             :class="{ liked : post.isLiked }"
             class="fill-current text-grey mr-1"

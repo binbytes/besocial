@@ -10,16 +10,30 @@
           height="16"/>
         <span>Notifications</span>
         <span
-          v-if="notifications.length > 0 "
-          class="rounded-full bg-red px-1">{{ notifications.length }}</span>
+          v-if="unReadNotificationsCount > 0"
+          class="rounded-full bg-teal-dark text-white px-1"
+          v-text="unReadNotificationsCount"/>
       </div>
       <div
-        v-show="showNotification"
-        class="rounded shadow-md mt-2 absolute pin-t-1 pin-l z-10 bg-white h-64 overflow-y-auto">
-        <notification
-          v-for="notification in notifications"
-          :key="notification.id"
-          :notification="notification"/>
+        v-if="showNotification"
+        class="rounded shadow-md mt-2 absolute pin-t-1 pin-l z-10 bg-white">  
+        <div
+          v-if="notifications.length > 0"
+          class="w-64 mx-auto">
+          <notification
+            v-for="notification in notifications"
+            :key="notification.id"
+            :notification="notification"
+            @close-modal="showNotification = false"/>
+        </div>
+        <div
+          v-else
+          class="w-64 mx-auto flex justify-center py-3 px-2">No any notification</div>
+        <nuxt-link to="/notifications">
+          <span
+            class="w-64 bg-teal-lightest flex justify-center py-3" 
+            @click="showNotification = false">View all</span>
+        </nuxt-link>
       </div>
     </div>
   </on-click-outside>
@@ -42,10 +56,29 @@ export default {
       notifications: []
     }
   },
+  computed: {
+    unReadNotifications() {
+      return this.notifications.filter(
+        notification => notification.read_at == null
+      )
+    },
+    unReadNotificationsCount() {
+      return this.unReadNotifications.length
+    }
+  },
   mounted() {
+    this.getNotifications()
     this.bindEchoNotificationEvent()
+    this.$bus.$on('unread-count', () => {
+      this.getNotifications()
+    })
   },
   methods: {
+    getNotifications() {
+      this.$axios.$get(`notifications/recent`).then(res => {
+        this.notifications = res
+      })
+    },
     bindEchoNotificationEvent() {
       this.$echo
         .private('App.User.' + this.$auth.user.id)
