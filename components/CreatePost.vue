@@ -8,46 +8,119 @@
     </div>
     <div class="w-full pl-1">
       <form
-        class="w-full text-right"
+        class="w-full"
         @submit.prevent="addPost">
         <textarea
           v-model="text"
           :class="{ focus : showInput }"
-          class="shadow border rounded w-full py-2 px-3 text-grey-darker leading-tight resize-none new-post"
+          class="w-full border rounded py-2 px-3 text-grey-darker leading-tight resize-none new-post"
           placeholder="Post"
           @blur="postBlur(text)"
           @focus="showInput = true" />
-        <button
+        <div
+          v-if="images.length"
+          class="flex flex-wrap border rounded px-2">
+          <add-image
+            v-for="(image, index) in images"
+            :key="index"
+            :image="image"
+            @remove-image="removeImage"/>
+        </div>
+        <div
           v-if="showInput"
-          :disabled="!text"
-          :class="{ disable : text }"
-          class="mt-2 bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
-          type="submit">Tweet</button>
+          class="flex items-center justify-between mt-2">
+          <button
+            type="button"
+            @click="selectImage">
+            <picture-svg class="w-6 h-6"/>
+          </button>
+          <input
+            ref="input_post_media"
+            type="file"
+            name="post_media"
+            class="hidden"
+            accept="image/jpeg,image/jpg,image/png,"
+            multiple=""
+            @change="fileChange">
+          <button
+            :disabled="!text"
+            :class="{ disable : text }"
+            class="bg-transparent border text-teal border-teal py-2 px-6 rounded-full cursor-wait"
+            type="submit">Tweet</button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import PictureSvg from '@/static/images/picture.svg'
+import AddImage from '~/components/AddImages.vue'
+
 export default {
+  components: {
+    PictureSvg,
+    AddImage
+  },
   data() {
     return {
       text: '',
-      showInput: false
+      showInput: false,
+      images: [],
+      imageFile: []
     }
   },
   methods: {
     addPost() {
-      this.$axios.$post('/posts', { text: this.text }).then(res => {
-        this.text = ''
-        this.showInput = false
-        this.$emit('add-post', res.data)
-      })
+      let formData = new FormData()
+      formData.append('text', this.text)
+
+      for (let i = 0; i < this.imageFile.length; i++) {
+        formData.append('images[' + i + ']', this.imageFile[i])
+      }
+
+      this.$axios
+        .$post('/posts', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          this.text = ''
+          this.images = []
+          this.showInput = false
+          this.$emit('add-post', res.data)
+        })
     },
     postBlur(text) {
       if (!text) {
-        this.showInput = false
+        // this.showInput = false
       }
+    },
+    selectImage() {
+      this.$refs['input_post_media'].click()
+    },
+    fileChange(e) {
+      if (!e.target.files) {
+        return
+      }
+      this.imageFile = e.target.files
+
+      for (let i = 0; i < e.target.files.length; i++) {
+        // if (appendFile) {
+        //   this.imageFile.push(e.target.files[i])
+        // }
+
+        var reader = new FileReader()
+        reader.onload = e => {
+          this.images.push(e.target.result)
+        }
+
+        reader.readAsDataURL(e.target.files[i])
+      }
+    },
+    removeImage(image) {
+      this.images.splice(this.images.indexOf(image), 1)
     }
   }
 }

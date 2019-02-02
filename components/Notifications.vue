@@ -29,9 +29,10 @@
         <div
           v-else
           class="w-64 mx-auto flex justify-center py-3 px-2">No any notification</div>
-        <nuxt-link to="/notifications">
+        <nuxt-link
+          to="/notifications">
           <span
-            class="w-64 bg-teal-lightest flex justify-center py-3" 
+            class="w-64 bg-teal-lightest text-grey-darker flex justify-center py-3" 
             @click="showNotification = false">View all</span>
         </nuxt-link>
       </div>

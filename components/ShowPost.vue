@@ -101,7 +101,6 @@ export default {
     this.$bus.$on('open-post-show', post => {
       this.modal = true
       this.post = post
-
       this.getComments()
     })
   },
@@ -124,6 +123,7 @@ export default {
           this.showInput = false
           this.comments.unshift(res.data)
           this.updatePostCounts()
+          this.$bus.$emit('unread-count')
         })
     },
     updatePostCounts() {

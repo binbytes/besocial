@@ -60,7 +60,7 @@
 a {
   @apply no-underline
 }
-button:focus {
+button:focus, input:focus, textarea:focus {
   @apply outline-none
 }
 .loader {

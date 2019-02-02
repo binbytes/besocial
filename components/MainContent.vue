@@ -9,7 +9,7 @@
         v-for="post in posts"
         :key="post.id"
         :post="post"
-        class="border-t"
+        class="border-t hover:bg-grey-lighter"
         @post-selected="postSelected" 
         @update-post-like="updatePostLikeCount"/>
     </transition-group>

@@ -45,7 +45,7 @@
         </nuxt-link>
         Commented
         <span class="header-lable">  your post </span>
-        Jan 23
+        {{ notification.created_at }}
       </p>
       <p
         class="text"
@@ -76,7 +76,7 @@ export default {
       this.$axios
         .$get('/notifications/mark-read/' + this.notification.id)
         .then(() => {
-          //
+          this.$bus.$emit('unread-count')
         })
     }
   }

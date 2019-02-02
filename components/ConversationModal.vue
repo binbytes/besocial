@@ -150,9 +150,11 @@ export default {
   watch: {
     findUser() {
       if (this.findUser) {
-        this.$axios.$get(`users/search/${this.findUser}`).then(res => {
-          this.finderUser = res.data
-        })
+        this.$axios
+          .$post(`users/search`, { query: this.findUser })
+          .then(res => {
+            this.finderUser = res.data
+          })
       }
     }
   },

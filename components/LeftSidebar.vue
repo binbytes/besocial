@@ -55,6 +55,7 @@ export default {
       this.$axios.$post(`users/${this.user.id}/follow`).then(res => {
         this.updateUser()
         this.$auth.fetchUser()
+        this.$bus.$emit('unread-count')
       })
     },
     updateUser() {

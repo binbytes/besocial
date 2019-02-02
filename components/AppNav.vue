@@ -38,6 +38,11 @@
           v-if="showMessage"
           @close-modal="showMessage = false"/>
       </div>
+
+      <div>
+        <find-user/>
+      </div>
+
       <div>
         <button
           class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0"
@@ -51,11 +56,13 @@
 <script>
 import Notifications from '~/components/Notifications.vue'
 import ConversationModal from '~/components/ConversationModal.vue'
+import FindUser from '~/components/FindUser.vue'
 
 export default {
   components: {
     Notifications,
-    ConversationModal
+    ConversationModal,
+    FindUser
   },
   data() {
     return {
