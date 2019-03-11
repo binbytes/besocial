@@ -1,6 +1,8 @@
-# besocial
+# BeSocial
 
-> My extraordinary Nuxt.js project
+> Frontend of BeSocial built in Nuxt.js, Vue.js. A social web platform like twitter. Post, Realtime messaging, Likes, Comments.
+
+> Laravel Backend:- https://github.com/binbytes/laravel-besocial-api
 
 ## Build Setup
 
@@ -14,9 +16,4 @@ $ yarn run dev
 # build for production and launch server
 $ yarn run build
 $ yarn start
-
-# generate static project
-$ yarn run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
