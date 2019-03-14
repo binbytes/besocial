@@ -42,7 +42,7 @@ module.exports = {
   plugins: [
     '~/plugins/errorsValidator',
     '~/plugins/bus',
-    { src: '~/plugins/echo', ssr: false },
+    { src: '~/plugins/client', ssr: false },
   ],
 
   /*

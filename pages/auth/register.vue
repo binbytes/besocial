@@ -122,8 +122,16 @@ export default {
         if (result) {
           this.$axios
             .$post('/auth/register', this.form)
-            .then(() => {
-              this.$router.replace({ path: '/auth/login' })
+            .then(res => {
+              if (res) {
+                this.$auth
+                  .loginWith('local', {
+                    data: this.form
+                  })
+                  .then(() => {
+                    this.$router.replace({ path: '/' })
+                  })
+              }
             })
             .catch(err => {
               this.$setValidationErrors(err)

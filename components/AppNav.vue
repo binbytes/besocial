@@ -29,7 +29,9 @@
           class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
           Home
         </nuxt-link>
+
         <notifications/>
+
         <div
           class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter cursor-pointer hover:text-white mr-4"
           @click="showMessage = true">Messages
@@ -38,7 +40,7 @@
           v-if="showMessage"
           @close-modal="showMessage = false"/>
       </div>
-
+      
       <div>
         <find-user/>
       </div>
