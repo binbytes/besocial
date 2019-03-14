@@ -80,7 +80,6 @@ export default {
           } else {
             this.nextPage = null
           }
-
           this.showLoader = false
         })
     },

@@ -14,7 +14,7 @@
           v-model="text"
           :class="{ focus : showInput }"
           class="w-full border rounded py-2 px-3 text-grey-darker leading-tight resize-none new-post"
-          placeholder="Post"
+          placeholder="Create New Post"
           @blur="postBlur(text)"
           @focus="showInput = true" />
         <div
@@ -107,10 +107,6 @@ export default {
       this.imageFile = e.target.files
 
       for (let i = 0; i < e.target.files.length; i++) {
-        // if (appendFile) {
-        //   this.imageFile.push(e.target.files[i])
-        // }
-
         var reader = new FileReader()
         reader.onload = e => {
           this.images.push(e.target.result)

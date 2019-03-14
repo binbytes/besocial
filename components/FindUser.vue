@@ -6,7 +6,7 @@
         type="text"
         placeholder="Search user"
         class="border border-grey-light bg-teal-lightest text-sm px-4 py-2 leading-none rounded-full">
-      <div class="absolute pin-t pin-r m-2">
+      <div class="absolute pin-t pin-r my-2 mr-3">
         <search class="w-4 h-4"/>
       </div>
       <div

@@ -156,10 +156,6 @@ textarea {
 textarea.focus {
   height: 80px;
 }
-.bg-smoke-dark,
-.hover\:bg-smoke-dark:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
 .disable {
   @apply bg-teal-dark text-white cursor-pointer;
 }

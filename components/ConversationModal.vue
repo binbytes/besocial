@@ -79,7 +79,7 @@
           </div>
           <span
             class="absolute pin-t pin-l py-4 px-4"
-            @click="[showNew = false, showDirect = true, showChat=false]">
+            @click="[showNew = false, showDirect = true, showChat=false, getAllConversation()]">
             <left-arrow-svg
               class="fill-current text-grey"
               width="20"

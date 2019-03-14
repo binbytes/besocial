@@ -19,11 +19,11 @@
         <span class="text-grey-dark text-sm font-thin leading-loose">@{{ post.author.username }} 8am</span>
       </nuxt-link>
       <div
-        class="cursor-pointer"
-        @click="showPost">
+        class="cursor-pointer">
         <p
           class="text-grey-darkest font-light leading-normal text-sm"
-          v-text="post.text" />
+          @click="showPost"
+          v-text="post.text"/>
         <div
           v-if="chunkedImages.length"
           class="flex items-center border rounded-lg mt-2 bg-white">
@@ -37,7 +37,38 @@
               class="flex-1 self-stretch">
               <img
                 :src="media"
-                class="w-full rounded-lg">
+                class="w-full rounded-lg"
+                @click="imageModal = true">
+            </div>
+            <div
+              v-if="imageModal"
+              class="animated fadeIn fixed z-50 pin overflow-auto bg-smoke-dark pb-1 flex">
+              <div class="animated fadeInUp fixed md:relative pin-b pin-x align-top m-auto w-full h-full flex justify-center">
+                <carousel
+                  :center-mode="true"
+                  :per-page="1"
+                  :pagination-enabled="false"
+                  :navigation-enabled="true"
+                  class="flex justify-center m-10">
+                  <slide
+                    v-for="image in post.images"
+                    :key="image.index"
+                    class="text-center">
+                    <img
+                      :src="image"
+                      class="w-102 h-102">
+                  </slide>
+                </carousel>
+                <!-- Close Modal -->
+                <span
+                  class="absolute pin-t pin-r mt-5 mx-4"
+                  @click="imageModal = false">
+                  <close-svg
+                    class="fill-current text-grey-lighter hover:text-grey"
+                    width="17"
+                    height="17"/>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -74,6 +105,8 @@
 <script>
 import ChatSvg from '@/static/images/comment.svg'
 import LikeSvg from '@/static/images/like.svg'
+import CloseSvg from '@/static/images/close.svg'
+
 const chunkArray = (array, size) => {
   const chunked_arr = []
   for (let i = 0; i < array.length; i++) {
@@ -84,19 +117,24 @@ const chunkArray = (array, size) => {
       last.push(array[i])
     }
   }
-
   return chunked_arr
 }
 
 export default {
   components: {
     ChatSvg,
-    LikeSvg
+    LikeSvg,
+    CloseSvg
   },
   props: {
     post: {
       type: Object,
       default: null
+    }
+  },
+  data() {
+    return {
+      imageModal: false
     }
   },
   computed: {
@@ -130,5 +168,8 @@ export default {
 <style>
 .liked {
   color: config('colors.red-light');
+}
+.VueCarousel-navigation-button {
+  color: config('colors.white');
 }
 </style>
