@@ -3,9 +3,17 @@
     <div class="header">
       <div class="h-24 bg-teal-light"/>
       <img
+        :src="avatarUrl"
         class="user-avatar"
-        src="images/default-avatar.png"
-        alt="User avatar">
+        alt="User avatar"
+        @click="selectImage">
+      <input
+        ref="input_user_avatar"
+        type="file"
+        name="post_media"
+        class="hidden"
+        accept="image/jpeg,image/jpg,image/png,"
+        @change="fileChange">
       <div class="py-1 text-grey-darker pl-24 tracking-wide">
         <h3 v-text="user.name" />
         <h4
@@ -50,6 +58,23 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      image: '',
+      imageFile: '',
+      authuser: ''
+    }
+  },
+  computed: {
+    avatarUrl() {
+      return this.authuser.avatar
+        ? this.authuser.avatar
+        : 'images/default-avatar.png'
+    }
+  },
+  mounted() {
+    this.authuser = this.user
+  },
   methods: {
     toggleFollow() {
       this.$axios.$post(`users/${this.user.id}/follow`).then(res => {
@@ -60,6 +85,35 @@ export default {
     },
     updateUser() {
       this.$emit('refresh-user')
+    },
+    selectImage() {
+      this.$refs['input_user_avatar'].click()
+    },
+    fileChange(e) {
+      if (!e.target.files) {
+        return
+      }
+      this.imageFile = e.target.files[0]
+
+      var reader = new FileReader()
+      //reader.onload = e => {
+      //this.authuser.avatar = e.target.result
+      //}
+
+      reader.readAsDataURL(e.target.files[0])
+
+      let formData = new FormData()
+      formData.append('avatar', this.imageFile)
+
+      this.$axios
+        .$post(`users/${this.user.id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          this.authuser = res.data
+        })
     }
   }
 }
