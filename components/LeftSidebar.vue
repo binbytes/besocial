@@ -4,6 +4,7 @@
       <div class="h-24 bg-teal-light"/>
       <img
         :src="authuser.avatar ? authuser.avatar : 'images/default-avatar.png'"
+        :class="user.id == $auth.user.id ? 'cursor-pointer' : ''"
         class="user-avatar"
         alt="User avatar"
         @click="selectImage">
