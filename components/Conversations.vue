@@ -10,8 +10,8 @@
           :class="['flex justify-between py-2 px-6 border-b hover:bg-grey-lighter cursor-pointer', conversation.unread_message_count > 0 ? 'bg-grey-lighter' : '']">
           <div class="flex">
             <img
+              :src="user.avatar ? user.avatar : 'images/default-avatar.png'"
               class="rounded-full w-10 h-10 my-1 ml-1"
-              src="images/default-avatar.png"
               alt="User avatar">
             <div class="ml-3">
               <span class="text-grey-darkest font-semibold leading-loose">{{ user.name }}</span>

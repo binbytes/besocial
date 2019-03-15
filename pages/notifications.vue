@@ -11,11 +11,11 @@
           v-for="notification in notifications"
           :key="notification.id">
           <div class="border-b py-3 px-8">
-            <img
-              class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
-              src="images/default-avatar.png"
-              alt="User avatar">
             <div v-if="notification.type == 'App\\Notifications\\UserFollowed'">
+              <img
+                :src="notification.data.FollowedBy.avatar ? notification.data.FollowedBy.avatar : 'images/default-avatar.png'"
+                class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
+                alt="User avatar">
               <p class="text-sm leading-normal text-grey-darker pl-1">
                 <nuxt-link
                   :to="`/${notification.data.FollowedBy.username}`">
@@ -30,6 +30,10 @@
               </p>
             </div>
             <div v-if="notification.type == 'App\\Notifications\\PostLiked'">
+              <img
+                :src="notification.data.likedBy.avatar ? notification.data.likedBy.avatar : 'images/default-avatar.png'"
+                class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
+                alt="User avatar">
               <p class="text-sm leading-normal text-grey-darker pl-1">
                 <span
                   class="text-teal font-semibold text-base"
@@ -55,6 +59,10 @@
               </div>
             </div>
             <div v-if="notification.type == 'App\\Notifications\\PostCommented'">
+              <img
+                :src="notification.data.CommentedBy.avatar ? notification.data.CommentedBy.avatar : 'images/default-avatar.png'"
+                class="rounded-full border bg-grey-darkest w-8 h-8 mr-2"
+                alt="User avatar">
               <p class="text-sm leading-normal text-grey-darker pl-1">
                 <span
                   class="text-teal font-semibold text-base"

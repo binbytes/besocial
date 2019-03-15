@@ -19,8 +19,8 @@
             :to="`/${user.username}`"
             class="flex p-2 border-b hover:bg-grey-lighter">
             <img
+              :src="user.avatar ? user.avatar : 'images/default-avatar.png'"
               class="rounded-full w-8 h-8 my-1 ml-1"
-              src="images/default-avatar.png"
               alt="User avatar">
             <div class="ml-3">
               <span class="text-grey-darkest font-normal leading-loose"> {{ user.name }} </span>

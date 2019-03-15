@@ -12,8 +12,8 @@
       <div class="flex bg-teal-lightest py-3 px-8">
         <div class="w-12 text-right pr-2">
           <img
+            :src="$auth.user.avatar ? $auth.user.avatar : 'images/default-avatar.png'"
             class="rounded-full w-8 h-8"
-            src="images/default-avatar.png"
             alt="User avatar">
         </div>
         <form
@@ -49,8 +49,8 @@
           class="border-t hover:bg-grey-lighter">
           <div class="flex py-2 px-6">
             <img
+              :src="comment.author.avatar ? comment.author.avatar : 'images/default-avatar.png'"
               class="rounded-full w-10 h-10 my-1 ml-1"
-              src="images/default-avatar.png"
               alt="User avatar">
             <div class="ml-3">
               <nuxt-link

@@ -4,7 +4,7 @@
       :class="['clearfix flex items-center text-b my-2', isMine ? 'flex-row-reverse' : 'justify-start']">
       <img
         :class="['rounded-full w-8 h-8', isMine ? 'ml-2' : 'mr-2']"
-        src="images/default-avatar.png"
+        :src="message.sender.avatar ? message.sender.avatar : 'images/default-avatar.png'"
         alt="User avatar">
       <div class="inline-block w-auto max-w-xs">
         <p

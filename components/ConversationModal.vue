@@ -69,14 +69,6 @@
       <div v-if="showChat">
         <div
           class="flex justify-center items-center border-b py-3 px-4">
-          <img
-            class="rounded-full w-8 h-8 mr-2"
-            src="images/default-avatar.png"
-            alt="User avatar">
-          <div>
-            <span class="text-lg font-semibold">{{ user.name }}</span><br>
-            <span class="text-grey">@{{ user.username }}</span>
-          </div>
           <span
             class="absolute pin-t pin-l py-4 px-4"
             @click="[showNew = false, showDirect = true, showChat=false, getAllConversation()]">
@@ -85,6 +77,14 @@
               width="20"
               height="20"/>
           </span>
+          <img
+            :src="user.avatar ? user.avatar : 'images/default-avatar.png'"
+            class="rounded-full w-8 h-8 mr-2"
+            alt="User avatar">
+          <div>
+            <span class="text-lg font-semibold">{{ user.name }}</span><br>
+            <span class="text-grey">@{{ user.username }}</span>
+          </div>
         </div>
         <div
           v-scroll-bottom
@@ -167,7 +167,7 @@ export default {
     },
     getAllConversation() {
       this.$axios.$get(`conversations`).then(res => {
-        this.conversations = res
+        this.conversations = res.data
       })
     },
     startConversation(user) {
@@ -177,7 +177,7 @@ export default {
       this.user = user
       this.$axios.$post(`conversations/${user.id}`).then(conversation => {
         this.$axios
-          .$get(`conversations/${conversation.id}`)
+          .$get(`conversations/${conversation.data.id}`)
           .then(conversation => {
             this.conversation = conversation
             this.bindEchoListner(conversation)
@@ -188,6 +188,7 @@ export default {
       this.$echo
         .private('conversation.' + conversation.id)
         .listen('\\App\\Events\\MessageSent', data => {
+          console.log(data)
           this.conversation.messages.push(data.message)
         })
     },
@@ -197,7 +198,7 @@ export default {
           text: message
         })
         .then(res => {
-          //
+          //console.log(res)
         })
     },
     updateUnreadMessageCount(e) {

@@ -5,8 +5,8 @@
       <nuxt-link
         :to="`/${post.author.username}`">
         <img
+          :src="post.author.avatar? post.author.avatar : 'images/default-avatar.png'"
           class="rounded-full w-10 h-10"
-          src="images/default-avatar.png"
           alt="User avatar">
       </nuxt-link>
     </div>

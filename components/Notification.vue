@@ -1,12 +1,14 @@
 <template>
   <div
-    :class="['flex border-b py-3 px-2', notification.read_at == null ? 'bg-grey-lighter' : '']"
+    :class="['border-b py-3 px-2', notification.read_at == null ? 'bg-grey-lighter' : '']"
     @click="markAsRead">
-    <img
-      class="rounded-full border bg-grey-darkest w-8 h-8 mt-1 mr-2"
-      src="images/default-avatar.png"
-      alt="User avatar">
-    <div v-if="notification.type == 'App\\Notifications\\UserFollowed'">
+    <div
+      v-if="notification.type == 'App\\Notifications\\UserFollowed'"
+      class="flex">
+      <img
+        :src="notification.data.FollowedBy.avatar ? notification.data.FollowedBy.avatar : 'images/default-avatar.png'"
+        class="rounded-full border bg-grey-darkest w-8 h-8 mt-1 mr-2"
+        alt="User avatar">
       <p class="text">
         <nuxt-link
           :to="`/${notification.data.FollowedBy.username}`">
@@ -19,7 +21,13 @@
         {{ notification.created_at }}
       </p>
     </div>
-    <div v-if="notification.type == 'App\\Notifications\\PostLiked'">
+    <div
+      v-if="notification.type == 'App\\Notifications\\PostLiked'"
+      class="flex">
+      <img
+        :src="notification.data.likedBy.avatar ? notification.data.likedBy.avatar : 'images/default-avatar.png'"
+        class="rounded-full border bg-grey-darkest w-8 h-8 mt-1 mr-2"
+        alt="User avatar">
       <p class="text">
         <nuxt-link
           :to="`/${notification.data.likedBy.username}`">
@@ -30,12 +38,18 @@
         Liked
         <span class="header-lable">  your post </span>
         {{ notification.created_at }}
+        <pre
+          class="text-grey-darkest"
+          v-text="notificationText" />
       </p>
-      <p
-        class="text"
-        v-text="notificationText" />
     </div>
-    <div v-if="notification.type == 'App\\Notifications\\PostCommented'">
+    <div
+      v-if="notification.type == 'App\\Notifications\\PostCommented'"
+      class="flex">
+      <img
+        :src="notification.data.CommentedBy.avatar ? notification.data.CommentedBy.avatar : 'images/default-avatar.png'"
+        class="rounded-full border bg-grey-darkest w-8 h-8 mt-1 mr-2"
+        alt="User avatar">
       <p class="text">
         <nuxt-link
           :to="`/${notification.data.CommentedBy.username}`">
@@ -46,10 +60,10 @@
         Commented
         <span class="header-lable">  your post </span>
         {{ notification.created_at }}
+        <pre
+          class="text-grey-darkest"
+          v-text="notificationText" />
       </p>
-      <p
-        class="text"
-        v-text="notificationText" />
     </div>
   </div> 
 </template>

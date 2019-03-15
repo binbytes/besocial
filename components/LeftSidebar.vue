@@ -3,7 +3,7 @@
     <div class="header">
       <div class="h-24 bg-teal-light"/>
       <img
-        :src="avatarUrl"
+        :src="authuser.avatar ? authuser.avatar : 'images/default-avatar.png'"
         class="user-avatar"
         alt="User avatar"
         @click="selectImage">
@@ -63,13 +63,6 @@ export default {
       image: '',
       imageFile: '',
       authuser: ''
-    }
-  },
-  computed: {
-    avatarUrl() {
-      return this.authuser.avatar
-        ? this.authuser.avatar
-        : 'images/default-avatar.png'
     }
   },
   mounted() {
